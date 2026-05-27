@@ -3,7 +3,8 @@
 Grammar (lowest to highest precedence)::
 
     expr  := term (("+" | "-") term)*
-    term  := unary (("*" | "/" | "%") unary)*
+    term  := power (("*" | "/" | "%") power)*
+    power := unary ("**" power)?
     unary := ("+" | "-") unary | atom
     atom  := NUMBER | "(" expr ")"
 """
@@ -50,7 +51,7 @@ class Parser:
         return node
 
     def _term(self) -> Node:
-        node = self._unary()
+        node = self._power()
         ops = {
             TokenType.STAR: "*",
             TokenType.SLASH: "/",
@@ -58,8 +59,15 @@ class Parser:
         }
         while self._current.type in ops:
             op = ops[self._advance().type]
-            node = BinaryOp(op, node, self._unary())
+            node = BinaryOp(op, node, self._power())
         return node
+
+    def _power(self) -> Node:
+        base = self._unary()
+        if self._current.type is TokenType.CARET:
+            self._advance()
+            return BinaryOp("**", base, self._power())
+        return base
 
     def _unary(self) -> Node:
         if self._current.type in (TokenType.PLUS, TokenType.MINUS):
