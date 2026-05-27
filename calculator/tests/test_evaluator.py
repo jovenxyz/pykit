@@ -23,3 +23,14 @@ def test_modulo():
 
 def test_power_is_right_associative():
     assert _eval("2 ** 3 ** 2") == 512
+
+
+def test_division_and_modulo_by_zero():
+    import pytest
+
+    from calc.errors import EvaluationError
+
+    with pytest.raises(EvaluationError):
+        _eval("1 / 0")
+    with pytest.raises(EvaluationError):
+        _eval("1 % 0")
