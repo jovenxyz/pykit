@@ -19,3 +19,13 @@ cd calculator
 pip install pytest
 pytest
 ```
+
+## Grammar
+
+```
+expr  := term (("+" | "-") term)*
+term  := power (("*" | "/" | "%") power)*
+power := unary ("**" power)?       # right associative
+unary := ("+" | "-") unary | atom
+atom  := NUMBER | "(" expr ")"
+```
