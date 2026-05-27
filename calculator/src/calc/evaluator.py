@@ -33,4 +33,6 @@ def _apply(op: str, left: float, right: float) -> float:
         if right == 0:
             raise EvaluationError("modulo by zero")
         return left % right
+    if op == "**":
+        return left ** right
     raise EvaluationError(f"unknown operator: {op}")
