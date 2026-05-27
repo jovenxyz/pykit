@@ -29,3 +29,22 @@ source .venv/bin/activate
 pip install -r requirements-dev.txt
 pytest
 ```
+
+## Usage
+
+```python
+from pytoolkit import Stack, BinarySearchTree
+from pytoolkit.algorithms.sorting import merge_sort
+
+stack = Stack()
+stack.push(1)
+stack.push(2)
+assert stack.pop() == 2
+
+tree = BinarySearchTree()
+for key in (5, 3, 8, 1):
+    tree.insert(key)
+assert tree.inorder() == [1, 3, 5, 8]
+
+assert merge_sort([3, 1, 2]) == [1, 2, 3]
+```
