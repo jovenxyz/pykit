@@ -9,7 +9,6 @@ from calc.tokens import Token, TokenType
 _SINGLE = {
     "+": TokenType.PLUS,
     "-": TokenType.MINUS,
-    "*": TokenType.STAR,
     "/": TokenType.SLASH,
     "%": TokenType.PERCENT,
     "(": TokenType.LPAREN,
@@ -37,6 +36,14 @@ def tokenize(source: str) -> List[Token]:
                     seen_dot = True
                 i += 1
             tokens.append(Token(TokenType.NUMBER, float(source[start:i])))
+            continue
+        if char == "*":
+            if i + 1 < length and source[i + 1] == "*":
+                tokens.append(Token(TokenType.CARET))
+                i += 2
+            else:
+                tokens.append(Token(TokenType.STAR))
+                i += 1
             continue
         token_type = _SINGLE.get(char)
         if token_type is None:
