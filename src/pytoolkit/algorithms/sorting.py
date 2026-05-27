@@ -53,3 +53,14 @@ def _merge(left: List[int], right: List[int]) -> List[int]:
     merged.extend(left[i:])
     merged.extend(right[j:])
     return merged
+
+
+def quick_sort(values: List[int]) -> List[int]:
+    items = list(values)
+    if len(items) <= 1:
+        return items
+    pivot = items[len(items) // 2]
+    less = [x for x in items if x < pivot]
+    equal = [x for x in items if x == pivot]
+    greater = [x for x in items if x > pivot]
+    return quick_sort(less) + equal + quick_sort(greater)
