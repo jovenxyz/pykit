@@ -14,3 +14,18 @@ def test_precedence_builds_correct_tree():
     assert isinstance(tree.left, Number)
     assert isinstance(tree.right, BinaryOp)
     assert tree.right.op == "*"
+
+
+def test_parentheses_override_precedence():
+    tree = _parse("(1 + 2) * 3")
+    assert tree.op == "*"
+    assert tree.left.op == "+"
+
+
+def test_trailing_operator_raises():
+    import pytest
+
+    from calc.errors import ParseError
+
+    with pytest.raises(ParseError):
+        _parse("1 +")
