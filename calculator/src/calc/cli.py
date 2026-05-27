@@ -15,12 +15,37 @@ def _format(result: float) -> str:
     return str(result)
 
 
+def run_repl() -> None:
+    print("calc REPL - type 'quit' to exit")
+    while True:
+        try:
+            line = input("> ")
+        except EOFError:
+            print()
+            break
+        command = line.strip()
+        if command in ("quit", "exit"):
+            break
+        if not command:
+            continue
+        try:
+            print(_format(evaluate(command)))
+        except CalcError as error:
+            print(f"error: {error}")
+
+
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(
         description="Evaluate an arithmetic expression."
     )
-    parser.add_argument("expression", help="expression to evaluate")
+    parser.add_argument(
+        "expression", nargs="?", help="expression to evaluate (omit for a REPL)"
+    )
     args = parser.parse_args(argv)
+
+    if args.expression is None:
+        run_repl()
+        return 0
 
     try:
         print(_format(evaluate(args.expression)))
