@@ -24,3 +24,16 @@ def test_power_token():
         TokenType.NUMBER,
         TokenType.EOF,
     ]
+
+
+def test_decimal_value():
+    assert tokenize("3.5")[0].value == 3.5
+
+
+def test_unexpected_character_raises():
+    import pytest
+
+    from calc.errors import TokenizeError
+
+    with pytest.raises(TokenizeError):
+        tokenize("1 $ 2")
