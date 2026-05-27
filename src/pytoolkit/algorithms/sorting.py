@@ -28,3 +28,28 @@ def insertion_sort(values: List[int]) -> List[int]:
             j -= 1
         items[j + 1] = key
     return items
+
+
+def merge_sort(values: List[int]) -> List[int]:
+    items = list(values)
+    if len(items) <= 1:
+        return items
+    mid = len(items) // 2
+    left = merge_sort(items[:mid])
+    right = merge_sort(items[mid:])
+    return _merge(left, right)
+
+
+def _merge(left: List[int], right: List[int]) -> List[int]:
+    merged: List[int] = []
+    i = j = 0
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            merged.append(left[i])
+            i += 1
+        else:
+            merged.append(right[j])
+            j += 1
+    merged.extend(left[i:])
+    merged.extend(right[j:])
+    return merged
