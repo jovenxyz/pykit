@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 from tasks.errors import TaskNotFoundError
 from tasks.models import Task
@@ -20,20 +20,22 @@ class TaskManager:
     def _save(self) -> None:
         save_tasks(self._path, self._tasks)
 
+    def _get(self, task_id: int) -> Task:
+        for task in self._tasks:
+            if task.id == task_id:
+                return task
+        raise TaskNotFoundError(f"no task with id {task_id}")
+
     def add(self, title: str) -> Task:
         task = Task(id=self._next_id(), title=title)
         self._tasks.append(task)
         self._save()
         return task
 
-    def list(self) -> List[Task]:
-        return list(self._tasks)
-
-    def _get(self, task_id: int) -> Task:
-        for task in self._tasks:
-            if task.id == task_id:
-                return task
-        raise TaskNotFoundError(f"no task with id {task_id}")
+    def list(self, done: Optional[bool] = None) -> List[Task]:
+        if done is None:
+            return list(self._tasks)
+        return [task for task in self._tasks if task.done == done]
 
     def complete(self, task_id: int) -> Task:
         task = self._get(task_id)
