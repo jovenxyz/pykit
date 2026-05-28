@@ -18,3 +18,10 @@ def test_complete_marks_task_done(tmp_path):
     task = manager.add("write tests")
     manager.complete(task.id)
     assert manager.list()[0].done is True
+
+
+def test_remove_deletes_task(tmp_path):
+    manager = _manager(tmp_path)
+    task = manager.add("temp")
+    manager.remove(task.id)
+    assert manager.list() == []
