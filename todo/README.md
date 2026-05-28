@@ -17,3 +17,13 @@ cd todo
 pip install pytest
 pytest
 ```
+
+## Where tasks are stored
+
+By default tasks live in `~/.local/share/tasks/tasks.json`. Override the location
+with the `--file` option or the `TASKS_FILE` environment variable:
+
+```bash
+tasks --file ./my-tasks.json add "write the report"
+TASKS_FILE=./my-tasks.json tasks list
+```
