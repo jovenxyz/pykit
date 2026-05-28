@@ -40,3 +40,8 @@ class TaskManager:
         task.done = True
         self._save()
         return task
+
+    def remove(self, task_id: int) -> None:
+        task = self._get(task_id)
+        self._tasks.remove(task)
+        self._save()
