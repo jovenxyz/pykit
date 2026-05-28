@@ -11,3 +11,10 @@ def test_add_assigns_incrementing_ids(tmp_path):
     second = manager.add("ship it")
     assert (first.id, second.id) == (1, 2)
     assert [task.title for task in manager.list()] == ["write tests", "ship it"]
+
+
+def test_complete_marks_task_done(tmp_path):
+    manager = _manager(tmp_path)
+    task = manager.add("write tests")
+    manager.complete(task.id)
+    assert manager.list()[0].done is True
