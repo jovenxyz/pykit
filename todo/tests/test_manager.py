@@ -35,3 +35,19 @@ def test_unknown_id_raises(tmp_path):
     manager = _manager(tmp_path)
     with pytest.raises(TaskNotFoundError):
         manager.complete(999)
+
+
+def test_clear_completed_removes_only_done(tmp_path):
+    manager = _manager(tmp_path)
+    first = manager.add("done one")
+    manager.add("keep me")
+    manager.complete(first.id)
+    assert manager.clear_completed() == 1
+    assert [task.title for task in manager.list()] == ["keep me"]
+
+
+def test_tasks_persist_across_instances(tmp_path):
+    path = tmp_path / "tasks.json"
+    TaskManager(path).add("persisted")
+    reloaded = TaskManager(path)
+    assert [task.title for task in reloaded.list()] == ["persisted"]
