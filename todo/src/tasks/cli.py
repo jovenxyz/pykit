@@ -26,6 +26,14 @@ def _build_parser() -> argparse.ArgumentParser:
     add.add_argument("title", help="task description")
 
     sub.add_parser("list", help="list tasks")
+
+    done = sub.add_parser("done", help="mark a task complete")
+    done.add_argument("id", type=int, help="task id")
+
+    remove = sub.add_parser("remove", help="delete a task")
+    remove.add_argument("id", type=int, help="task id")
+
+    sub.add_parser("clear", help="remove completed tasks")
     return parser
 
 
@@ -46,6 +54,15 @@ def main(argv: Optional[List[str]] = None) -> int:
             for task in tasks:
                 marker = "x" if task.done else " "
                 print(f"[{marker}] #{task.id} {task.title}")
+        elif args.command == "done":
+            task = manager.complete(args.id)
+            print(f"completed #{task.id}: {task.title}")
+        elif args.command == "remove":
+            manager.remove(args.id)
+            print(f"removed #{args.id}")
+        elif args.command == "clear":
+            count = manager.clear_completed()
+            print(f"cleared {count} completed task(s)")
     except TaskError as error:
         print(f"error: {error}")
         return 1
