@@ -45,3 +45,9 @@ class TaskManager:
         task = self._get(task_id)
         self._tasks.remove(task)
         self._save()
+
+    def clear_completed(self) -> int:
+        completed = [task for task in self._tasks if task.done]
+        self._tasks = [task for task in self._tasks if not task.done]
+        self._save()
+        return len(completed)
