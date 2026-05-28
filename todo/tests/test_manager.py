@@ -25,3 +25,13 @@ def test_remove_deletes_task(tmp_path):
     task = manager.add("temp")
     manager.remove(task.id)
     assert manager.list() == []
+
+
+def test_unknown_id_raises(tmp_path):
+    import pytest
+
+    from tasks.errors import TaskNotFoundError
+
+    manager = _manager(tmp_path)
+    with pytest.raises(TaskNotFoundError):
+        manager.complete(999)
