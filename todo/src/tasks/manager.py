@@ -28,3 +28,15 @@ class TaskManager:
 
     def list(self) -> List[Task]:
         return list(self._tasks)
+
+    def _get(self, task_id: int) -> Task:
+        for task in self._tasks:
+            if task.id == task_id:
+                return task
+        raise TaskNotFoundError(f"no task with id {task_id}")
+
+    def complete(self, task_id: int) -> Task:
+        task = self._get(task_id)
+        task.done = True
+        self._save()
+        return task
