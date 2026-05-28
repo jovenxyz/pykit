@@ -22,3 +22,13 @@ def test_done_marks_complete(tmp_path, capsys):
     capsys.readouterr()
     main(args + ["list"])
     assert "[x] #1 task a" in capsys.readouterr().out
+
+
+def test_remove_and_unknown_id(tmp_path, capsys):
+    args = _file(tmp_path)
+    main(args + ["add", "temp"])
+    capsys.readouterr()
+    assert main(args + ["remove", "1"]) == 0
+    capsys.readouterr()
+    assert main(args + ["done", "42"]) == 1
+    assert "error" in capsys.readouterr().out.lower()
