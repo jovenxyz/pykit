@@ -27,3 +27,19 @@ with the `--file` option or the `TASKS_FILE` environment variable:
 tasks --file ./my-tasks.json add "write the report"
 TASKS_FILE=./my-tasks.json tasks list
 ```
+
+## Commands
+
+```bash
+$ tasks add "write the report"
+added #1: write the report
+$ tasks add "review the PR"
+added #2: review the PR
+$ tasks done 1
+completed #1: write the report
+$ tasks list
+[x] #1 write the report
+[ ] #2 review the PR
+$ tasks clear
+cleared 1 completed task(s)
+```
