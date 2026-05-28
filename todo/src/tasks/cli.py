@@ -24,6 +24,8 @@ def _build_parser() -> argparse.ArgumentParser:
 
     add = sub.add_parser("add", help="add a task")
     add.add_argument("title", help="task description")
+
+    sub.add_parser("list", help="list tasks")
     return parser
 
 
@@ -37,6 +39,13 @@ def main(argv: Optional[List[str]] = None) -> int:
         if args.command == "add":
             task = manager.add(args.title)
             print(f"added #{task.id}: {task.title}")
+        elif args.command == "list":
+            tasks = manager.list()
+            if not tasks:
+                print("no tasks")
+            for task in tasks:
+                marker = "x" if task.done else " "
+                print(f"[{marker}] #{task.id} {task.title}")
     except TaskError as error:
         print(f"error: {error}")
         return 1
