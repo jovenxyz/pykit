@@ -8,3 +8,7 @@ def test_save_and_load_round_trip(tmp_path):
     loaded = load_tasks(path)
     assert [task.title for task in loaded] == ["alpha", "beta"]
     assert loaded[1].done is True
+
+
+def test_load_missing_file_returns_empty(tmp_path):
+    assert load_tasks(tmp_path / "absent.json") == []
